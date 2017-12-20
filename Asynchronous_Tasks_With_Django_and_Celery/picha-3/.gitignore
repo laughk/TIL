@@ -1,0 +1,10 @@
+.DS_Store
+venv
+env
+db.sqlite3
+__pycache__
+#.pyc
+celerybeat.pid
+celerybeat-schedule
+celerybeat-schedule.db
+whoosh_index/
