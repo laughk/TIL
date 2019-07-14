@@ -23,7 +23,7 @@ class GmailMessage:
     body: str
     snippet: str
 
-    def detail(self):
+    def detail(self) -> str:
         fmt = f'from: {self.from_}\n' \
               f'to: {self.to}\n' \
               f'date: {self.date}\n' \
@@ -31,8 +31,36 @@ class GmailMessage:
               f'body:\n{self.body}'
         return fmt
 
+    def base_of_json_for_slack(self) -> list:
+        return [
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": f"メールが来てるよ :email:",
+                }
+            },
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": f"*Subject* {self.subject}\n*from*: {self.from_}\n*date*: {self.date}",
+                }
+            },
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": f"*本文*\n```{self.body}\n```"
+                }
+            },
+        ]
+
 
 def get_creds():
+    '''
+    get_creds
+    '''
 
     creds = None
     # The file token.pickle stores the user's access and refresh tokens, and is
@@ -59,6 +87,9 @@ def get_creds():
 def convert_dict_list_to_dict(
     src_dict_list: t.List[t.Dict],
 ) -> t.Dict:
+    '''
+    convert_dict_list_to_dict
+    '''
 
     return {
         i['name']: i['value'] for i in src_dict_list
@@ -68,12 +99,18 @@ def convert_dict_list_to_dict(
 def get_headers_by_message_detail(
     message_detail: list
 ) -> t.Dict:
+    '''
+    get_headers_by_message_detail
+    '''
     return convert_dict_list_to_dict(message_detail['payload']['headers'])
 
 
 def get_mail_body_by_message_detail(
     message_detail_payload: t.Dict
 ) -> str:
+    '''
+    get_mail_body_by_message_detail
+    '''
 
     body_resource = message_detail_payload['body']
     if not body_resource.get('data'):
@@ -88,6 +125,9 @@ def get_mail_body_by_message_detail(
 
 
 def search_mail_by_query(query: str = '') -> t.List[GmailMessage]:
+    '''
+    search_mail_by_query
+    '''
 
     creds = get_creds()
     service = build('gmail', 'v1', credentials=creds)
@@ -132,16 +172,11 @@ def search_mail_by_query(query: str = '') -> t.List[GmailMessage]:
     return results
 
 
-def main():
-
-    #mails = search_mail_by_query('(第100回)Python mini Hack-a-thon')
-    #mails = search_mail_by_query('From: connpass')
-    mails = search_mail_by_query('From: sebn_support@shoeisha.co.jp')
-
-    for mail in mails:
-        print('---------------------------')
-        print(mail.detail())
-
-
-if __name__ == '__main__':
-    main()
+def filter_for_gmails(
+    gmails: t.List[GmailMessage],
+    filter_info: t.Dict
+) -> t.List[GmailMessage]:
+    '''
+    これから考える
+    '''
+    return gmails
