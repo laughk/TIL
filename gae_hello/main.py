@@ -1,12 +1,10 @@
-from bottle import run, route, request
+from bottle import Bottle
 
+app = Bottle()
 
-@route('/', method='POST')
+@app.route('/', method='POST')
 def hello():
-    contentType = request.get_header('Content-Type')
+    contentType = app.request.get_header('Content-Type')
     if contentType == "application/json":
-        print(request.json)
+        print(app.request.json)
     return 'OK'
-
-
-run(host='0.0.0.0', port=8001)
