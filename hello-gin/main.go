@@ -43,5 +43,17 @@ func run() error {
 		c.String(http.StatusOK, "Hello %s %s", firstname, lastname)
 	})
 
+	// multipart/Urlencoded Form
+	router.POST("/form_post", func(c *gin.Context) {
+		message := c.PostForm("message")
+		nick := c.DefaultPostForm("nick", "anonymous")
+
+		c.JSON(200, gin.H{
+			"status":  "posted",
+			"message": message,
+			"nick":    nick,
+		})
+	})
+
 	return router.Run(":8080")
 }
