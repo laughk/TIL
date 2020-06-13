@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+<meta charset="UTF-8" />
+<title>AngularJS</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+<script src="scripts/scope_nest.js"></script>
+</head>
+<body>
+<div ng-controller="ParentController">
+  親スコープ：
+  {{value}}
+  <button ng-click="onparent()">加算</button>
+  <hr />
+  <div ng-controller="ChildController">
+    子スコープ：
+    {{value}}
+    <button ng-click="onchild()">加算</button>
+  </div>
+</div>
+</body>
+</html>

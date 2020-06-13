@@ -1,0 +1,28 @@
+<html ng-app="myApp">
+    <head>
+        <meta charset="UTF-8" />
+        <title>AngularJS</title>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.1/angular.min.js"></script>
+        <script src="scripts/event.js"></script>
+    </head>
+    <body>
+        <div ng-controller="ParentController">
+            親スコープ: {{parentResult}}
+            <hr />
+            <div ng-controller="MyController">
+                現在のスコープ:
+                <input type="text" ng-model="message" />
+                <button ng-click="onemit()">上位に通知</button>
+                <button ng-click="onbroad()">下位に通知</button>
+                <hr />
+                <div ng-controller="Child1Controller">
+                    子スコープ1: {{child1Result}}
+                </div>
+                <hr />
+                <div ng-controller="Child2Controller">
+                    子スコープ2: {{child2Result}}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
