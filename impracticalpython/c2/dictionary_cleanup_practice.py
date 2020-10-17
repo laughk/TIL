@@ -1,26 +1,29 @@
+import typing as t
+
 import sys
 import load_dictionary
 
 
-def load(file: str):
-    """
-    テキストファイルを開いて、以下の処理をしつつリストに変換して返す
+SINGLE_WORD = ("a", "i")
 
-    - すべて小文字に変換
-    - 1文字の単語が合った場合は除外
+
+def cleanup(words: t.List[str]) -> t.List[str]:
     """
-    try:
-        with open(file, "r") as in_file:
-            loaded_txt = in_file.read().strip().split("\n")
-            loaded_txt = [
-                x.lower() for x in loaded_txt if len(x) > 1
-            ]
-            return loaded_txt
-    except IOError as e:
-        print("{}\nError opening {}. Terminating program.".format(e, file),
-              file=sys.stderr)
-        sys.exit(1)
+    words の中に一文字のものは原則除外する。
+    ただし、1文字で意味をなす単語(SINGLE_WORD)はそのまま保持する
+    """
+    cleaned_words = []
+
+    for word in words:
+        if len(word) > 1:
+            cleaned_words.append(word)
+        elif len(word) == 1 and word in SINGLE_WORD:
+            cleaned_words.append(word)
+
+    return cleaned_words
 
 
 if __name__ == "__main__":
-    print(load("./words.txt"))
+
+    words = load_dictionary.load("./words.txt")
+    print(cleanup(words))
